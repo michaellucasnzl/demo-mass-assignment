@@ -1,11 +1,12 @@
+using api;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<MyDbContext>();
 
 var app = builder.Build();
 
@@ -16,6 +17,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var dbContext = services.GetRequiredService<MyDbContext>();
+    dbContext.Database.EnsureDeleted(); 
+    dbContext.Database.EnsureCreated(); 
+    SeedDatabase(dbContext);
+}
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
@@ -23,3 +33,50 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+void SeedDatabase(MyDbContext context)
+{
+    if (!context.Subscriptions.Any())
+    {
+        context.Subscriptions.AddRange(new List<Subscription>()
+        {
+            new()
+            {
+                Id = 1,
+                Name = "Premium"
+            },
+            new()
+            {
+                Id = 2,
+                Name = "Standard"
+            },
+            new()
+            {
+                Id = 3,
+                Name = "Restricted"
+            }
+        });
+        
+        context.Persons.AddRange(new List<Person>()
+        {
+            new()
+            {
+                Id = 1,
+                FirstName = "John",
+                LastName = "Smith",
+                SubscriptionId = 1,
+                IsAdmin = false
+            },
+            new()
+            {
+                Id = 2,
+                FirstName = "Mary",
+                LastName = "West",
+                SubscriptionId = 1,
+                IsAdmin = true
+            }
+        });
+        
+        context.SaveChanges();
+    }
+}

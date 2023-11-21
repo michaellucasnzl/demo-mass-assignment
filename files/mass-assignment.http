@@ -1,0 +1,25 @@
+### Get Person by ID
+GET http://localhost:5000/mass-assignment/person?id=1
+Accept: application/json
+
+### Update Person (Full Entity Update)
+PUT http://localhost:5000/mass-assignment/person
+Content-Type: application/json
+
+{
+  "Id": 1,
+  "FirstName": "John",
+  "LastName": "Doe",
+  "IsAdmin": true,
+  "SubscriptionId": 2
+}
+
+### Update Person Using DTO
+PUT http://localhost:5000/mass-assignment/persondto
+Content-Type: application/json
+
+{
+  "Id": 1,
+  "FirstName": "Jane",
+  "LastName": "Smith"
+}

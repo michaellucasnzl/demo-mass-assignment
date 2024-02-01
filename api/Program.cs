@@ -26,8 +26,6 @@ using (var scope = app.Services.CreateScope())
     SeedDatabase(dbContext);
 }
 
-app.UseHttpsRedirection();
-
 app.UseAuthorization();
 
 app.MapControllers();
@@ -64,7 +62,7 @@ void SeedDatabase(MyDbContext context)
                 Id = 1,
                 FirstName = "John",
                 LastName = "Smith",
-                SubscriptionId = 1,
+                SubscriptionId = 2,
                 IsAdmin = false
             },
             new()

@@ -1,0 +1,91 @@
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+@Web_HostAddress = http://localhost:5000
+@personId = 1
+
+###
+
+# GET person
+GET {{Web_HostAddress}}/api/person/{{personId}}
+Accept: application/json
+
+{
+}
+
+###
+
+# Update person name
+PUT {{Web_HostAddress}}/api/person/{{personId}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "FirstName": "New First Name",
+  "LastName": "New Last Name"
+}
+###
+
+# Update person admin flag
+PUT {{Web_HostAddress}}/api/person/{{personId}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "IsAdmin": true
+}
+###
+
+# Update person subscription
+PUT {{Web_HostAddress}}/api/person/{{personId}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "SubscriptionId": 1
+}
+###
+
+# Get subscriptions
+GET {{Web_HostAddress}}/api/subscriptions
+Content-Type: application/json
+Accept: application/json
+
+{
+}
+###
+
+# Update subscription via person
+PUT {{Web_HostAddress}}/api/person/{{personId}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "Subscription": {
+    "Id": 1,
+    "Name": "New Subscription Name"
+  }
+}
+
+###
+
+# Get person dto
+GET {{Web_HostAddress}}/api/person-dto/{{personId}}
+Content-Type: application/json
+Accept: application/json
+
+{
+}
+
+###
+
+# Update person dto
+PUT {{Web_HostAddress}}/api/person-dto/{{personId}}
+Content-Type: application/json
+
+{
+  "FirstName": "DTO New First Name",
+  "LastName": "DTO New Last Name",
+  "SubscriptionId": 1,
+  "IsAdmin": true
+}
+
+###
